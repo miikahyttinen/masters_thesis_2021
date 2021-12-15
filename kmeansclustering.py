@@ -1,4 +1,3 @@
-from sklearn.metrics.pairwise import cosine_similarity
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.cluster import KMeans
@@ -18,7 +17,7 @@ def k_means_svd_plot(svd_feature_matrix, row_names, num_clusters):
 
     ax.scatter(plot_svd[:, 0], plot_svd[:, 1], s=50,
                linewidths=0.5, alpha=0.7, c=(km_obj.labels_ * 2), cmap='rainbow')
-    # Comment out if you want to plot sample names and categories. Not recommended with large data sets!
+    # Remvoe comment if you want to plot sample names and categories. Not recommended with large data sets!
     # for i, txt in enumerate(row_names):
     #    ax.annotate(txt[1], (plot_svd[i, 0], plot_svd[i, 1]))
     print_kmeans_clusters(km_obj.labels_, row_names)
