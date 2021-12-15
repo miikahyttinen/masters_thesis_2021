@@ -4,6 +4,16 @@ from urllib.parse import unquote
 import libvoikko
 import re
 
+# Finnish language Pre-prcessor and lemmatizer
+#
+# - Uses Voikko library: https://voikko.puimula.org/
+# - Check the example in the end of this file
+#
+# Author: miikahyttinen
+# License: GNU
+#
+# Provided "AS IS"
+
 v = libvoikko.Voikko(u'fi')
 
 
@@ -13,8 +23,6 @@ def clean_corpus(corpus, unwanted='.,!?"><'):
     for c in unwanted:
         encoded.replace(c, '')
     return encoded.replace('-', '')
-
-# Halutaanko jättää yhdyssanat
 
 
 def reduce_compounds(word, pos_codes):
@@ -43,6 +51,7 @@ def voikko_analysis(w, pos_codes, split_compounds):
         return ''
     if 'all' in pos_codes:
         return voikko_dict[0]['BASEFORM']
+
     else:
         s = ''
         voikko_baseform = voikko_dict[0]['BASEFORM'] if voikko_dict[0]['CLASS'] in pos_codes else ''
@@ -72,17 +81,33 @@ def tokenize_corpora(corpora):
     return list(map(lambda corpus: corpus.split(' '), corpora))
 
 
-def pre_process(data_frame, pos_codes, split_compounds=False):
-
-    corpus_column = data_frame['data'].tolist()
+def pre_process(list_of_documents, pos_codes=['all'], split_compounds=False):
 
     cleaned_corpora = list(
-        map(lambda row: clean_corpus(row), corpus_column))
-    # Tsekkaa NLTK stop words´
-
+        map(lambda row: clean_corpus(row), list_of_documents))
     tokenized_data = tokenize_corpora(cleaned_corpora)
 
-    lemmatized_data = list(
+    lemmatized_documents = list(
         map(lambda tokenized: lemmatize(tokenized, pos_codes, split_compounds), tokenized_data))
 
-    return lemmatized_data
+    return lemmatized_documents
+
+
+# VOIKKO POS CODES
+NOUN = 'nimisana'
+ADJ = 'laatusana'
+VERB = 'teonsana'
+
+POS_CODES = [NOUN, ADJ]
+SPLIT_COMPOUNDS = False
+
+# EXAMPLE USAGE
+d_1 = "Elämä on lahja ja hasukinta on juoda tietty kaljaa ja olla boomeri."
+d_2 = "Nuoriso on pilalla: ajelee vain mopoilla ja tiktokkailee."
+d_3 = "Jes jes tämä voisi olla vaikka nettisivulta <p> tässäkin jotain yhdyssanoja sisällä.<p/>"
+
+docs = pre_process([d_1, d_2, d_3], pos_codes=POS_CODES,
+                   split_compounds=SPLIT_COMPOUNDS)
+
+for d in docs:
+    print(d)

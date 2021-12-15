@@ -7,19 +7,16 @@ NOUN = 'nimisana'
 VERB = 'teonsana'
 ADJECTIVE = 'laatusana'
 
-POS_CODES = [NOUN]
+SPLIT_COMPUNDS = True
 POS_ALL = ['all']
+
+POS_CODES = [NOUN]
 
 data_frame = pd.read_csv('data_set_large_short_fin.csv', sep=';')
 
 # SAVE PRE PROCESSED DATA AS CSV
-preprocessed_data = preprocessor.pre_process(data_frame, [NOUN], True)
+preprocessed_data = preprocessor.pre_process(
+    data_frame, POS_CODES, SPLIT_COMPUNDS)
 data_frame['data'] = preprocessed_data
 data_frame.to_csv('data_set_large_fin_pre_processed.csv',
                   sep=';', encoding='utf-8', index=False)
-#textfile = open('round_five_pre_processed_fin', "w")
-# for s in preprocessed_data:
-#    textfile.write(s + "\n")
-# textfile.close()
-
-# nlp_pipeline(data_frame, [NOUN], True, 'round_five_pre_processed_fin.txt')

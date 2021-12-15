@@ -10,9 +10,7 @@ def ward_hierarchical_clustering(feature_matrix):
 
 
 def plot_hierarchical_clusters(linkage_matrix, titles, figure_size=(8, 12)):
-    # set size
     fig, ax = plt.subplots(figsize=figure_size)
-    # TODO: move to pipeline
     ax = dendrogram(linkage_matrix, orientation="left", labels=titles)
     plt.tick_params(axis='x',
                     which='both', bottom='off', top='off', labelbottom='off')

@@ -1,20 +1,17 @@
 import numpy as np
-
-from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
 
+from sklearn.neighbors import NearestNeighbors
 from sklearn.cluster import DBSCAN
 from sklearn import metrics
-from sklearn.datasets import make_blobs
 
 
 def dbscan(X, eps, min_samples, row_names):
+
     db = DBSCAN(eps, min_samples).fit(X)
     core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
     core_samples_mask[db.core_sample_indices_] = True
     labels = db.labels_
-
-    print(len(labels))
 
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
     n_noise_ = list(labels).count(-1)
@@ -29,7 +26,7 @@ def dbscan(X, eps, min_samples, row_names):
     unique_labels = set(labels)
     colors = [plt.cm.Spectral(each)
               for each in np.linspace(0, 1, len(unique_labels))]
-    # print(zip(unique_labels, colors))
+
     for k, col in zip(unique_labels, colors):
         if k == -1:
             # Black used for noise.
@@ -72,8 +69,6 @@ def find_epsilon(X):
 
 
 def print_dbscan_clusters(clusterer, row_names):
-    # clusterer = DBSCAN(eps, min_samples).fit(X)
-    # print(clusterer.labels_)
     labels_and_names = zip(clusterer.labels_, row_names)
     sorted_by_cluster = sorted(labels_and_names, key=lambda tup: tup[0])
     for s in sorted_by_cluster:
