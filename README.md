@@ -1,3 +1,3 @@
-# masters_thesis_2021
+# Masters Thesis 2022
 
 Something will appear here soon..
