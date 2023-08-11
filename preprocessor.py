@@ -102,8 +102,8 @@ POS_CODES = [NOUN, ADJ]
 SPLIT_COMPOUNDS = False
 
 # EXAMPLE USAGE
-d_1 = "Elämä on lahja ja hasukinta on juoda tietty kaljaa ja olla boomeri."
-d_2 = "Nuoriso on pilalla: ajelee vain mopoilla ja tiktokkailee."
+d_1 = "Joo sivuilla voi olla vaikkapa mitä lauseita ja merkit voivat olla ihan miten vaan...!!!"
+d_2 = "voi olla that there is some English mixed with Suomen kieli."
 d_3 = "Jes jes tämä voisi olla vaikka nettisivulta <p> tässäkin jotain yhdyssanoja sisällä.<p/>"
 
 docs = pre_process([d_1, d_2, d_3], pos_codes=POS_CODES,
